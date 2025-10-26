@@ -1,28 +1,12 @@
-### IntelliJ IDEA ###
-.idea
-
-# Fichiers et dossiers Python à ignorer
 __pycache__/
 *.pyc
 *.pyo
 *.pyd
-
-# Environnements virtuels
-venv/
-.env/
-
-# Fichiers système
-.DS_Store
-Thumbs.db
-
-# Dépendances locales (si tu en as)
-*.egg-info/
-build/
-dist/
-
-# Git
-.gitignore
-
-# Autres fichiers inutiles
 *.log
-*.tmp
+*.git
+*.DS_Store
+.env
+.vscode/
+.idea/
+tests/
+model/.git/
