@@ -1,6 +1,6 @@
 # sentiment-analyzer
 
-Sentiment Analyzer un microservice conteneurisé pour l’analyse de sentiment basé sur **FastAPI**, **Hugging Face Transformers** et **PyTorch**.
+Sentiment Analyzer un microservice conteneurisé pour l’analyse de sentiment basé sur **FastAPI**, **Hugging Face Transformers** et **PyTorch**, intégrant un **pipeline CI/CD GitLab** pour automatiser le **build**, les **tests** et la **livraison de l’image Docker** sur **Docker Hub**.
 
 ## Architecture :
 
@@ -19,6 +19,7 @@ flowchart TD
 - API REST simple construite avec **FastAPI**.
 - Framework PyTorch (CPU)
 - Déployable facilement via **Docker**.
+- Integration continue et déploiment automatique avec **GitLab CI/CD**
 
 ---
 
@@ -28,7 +29,10 @@ flowchart TD
 - **FastAPI**
 - **Transformers**
 - **PyTorch**
+- **PyTest**
 - **Docker**
+- **GitLab CI/CD**
+- **Docker Hub**
 
 ---
 
@@ -68,6 +72,30 @@ Assurez-vous d’avoir Docker installé, puis :
 ```bash
   docker run -d -p 8000:8000 sentiment-analyzer
 ```
+
+---
+
+### Pipeline GitLab CI/CD  :
+
+Le **pipeline GitLab CI/CD** automatise entièrement le cycle de vie de l’application : **tests**, **build**, et **livraison continue** sur **Docker Hub**.
+
+Il se déclenche automatiquement à chaque **commit** ou **merge request** sur le dépôt **GitLab**.
+
+![img.png](img/imgPipeline.png)
+
+#### 1. Test
+
+- Utilise une image légère : `python:3.10-slim`
+- Exécute les **tests unitaires** avec `pytest` pour garantir :
+    - Le bon fonctionnement des **endpoints**
+    - La validité des **dépendances**
+
+
+#### 2. Build & Delivery (Docker Hub)
+
+- Construit l’image **Docker** à partir du `Dockerfile`
+- Se connecte automatiquement à **Docker Hub**
+- **Pousse** la nouvelle image sur le dépôt distant pour un déploiement continu
 
 ---
 

@@ -1,0 +1,38 @@
+stages:
+  - test
+  - build
+
+test:
+  stage: test
+  image: python:3.10-slim
+  before_script:
+    - echo "************ début insall ************"
+    - pip install --no-cache-dir --upgrade pip
+    - pip install --no-cache-dir -r app/requirements.txt
+    - pip install --no-cache-dir pytest httpx
+    - echo "************ fin install ************"
+  script:
+    - echo "************ début test ************"
+    - pytest app/ -v
+    - echo "************ fin test ************"
+
+
+build image:
+  variables:
+    IMAGE_NAME: sentiment-analyzer
+    IMAGE_TAG: latest
+  stage: build
+  image: docker:latest
+  services:
+    - docker:dind
+  before_script:
+    - docker login -u $DOCKERHUB_USERNAME -p $DOCKERHUB_TOKEN
+  script:
+    - echo "************ début build ************"
+    - docker build -t $DOCKERHUB_USERNAME/$IMAGE_NAME:$IMAGE_TAG .
+    - echo "************ fin build ************"
+    - echo "************ début push dockerhub ************"
+    - docker push $DOCKERHUB_USERNAME/$IMAGE_NAME:$IMAGE_TAG
+    - echo "************ fin push dockerhub ************"
+  after_script:
+    - docker images
