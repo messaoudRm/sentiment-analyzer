@@ -1,28 +1,26 @@
 from fastapi import FastAPI
-from pydantic import BaseModel
-from transformers import pipeline
-
+from config import APP_NAME, APP_DESCRIPTION, APP_VERSION
+from kafka.consumer import ReviewConsumer
+import multiprocessing
 
 app = FastAPI(
-    title="Sentiment Analyzer Microservice",
-    description="Microservice REST conteneurisé pour l’analyse de sentiment à l’aide de Hugging Face Transformers.",
-    version="1.0.0"
+    title=APP_NAME,
+    description=APP_DESCRIPTION,
+    version=APP_VERSION
 )
 
-modelName = "distilbert-base-uncased-finetuned-sst-2-english"
-sentimentPipeline = pipeline("sentiment-analysis", model=modelName)
+def run_consumer():
+    consumer = ReviewConsumer()
+    consumer.start()
 
-class TextInput(BaseModel):
-    text: str
 
 @app.get("/")
 def root():
     return {"message": "Sentiment Analyzer Microservice is running"}
 
 
-@app.post("/analyze")
-def analyzeSentiment(input: TextInput):
-    result = sentimentPipeline(input.text)[0]
-    return {
-        "label": result["label"],
-        "score": round(result["score"], 4)}
+@app.on_event("startup")
+def startup():
+    process = multiprocessing.Process(target=run_consumer)
+    process.daemon = True
+    process.start()
