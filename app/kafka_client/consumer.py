@@ -4,7 +4,7 @@ from config import KAFKA_BROKER, TOPIC_INPUT, GROUP_ID
 from models.review_event import ReviewEvent
 from models.sentiment_event import SentimentEvent
 from services.sentiment_service import SentimentService
-from kafka.producer import SentimentProducer
+from kafka_client.producer import SentimentProducer
 import json
 
 

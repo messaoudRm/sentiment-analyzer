@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from config import APP_NAME, APP_DESCRIPTION, APP_VERSION
-from kafka.consumer import ReviewConsumer
-import multiprocessing
+from kafka_client.consumer import ReviewConsumer
+import threading
 
 app = FastAPI(
     title=APP_NAME,
@@ -9,8 +9,10 @@ app = FastAPI(
     version=APP_VERSION
 )
 
+consumer = ReviewConsumer()
+
+# Kafka consumer thread
 def run_consumer():
-    consumer = ReviewConsumer()
     consumer.start()
 
 
@@ -21,6 +23,6 @@ def root():
 
 @app.on_event("startup")
 def startup():
-    process = multiprocessing.Process(target=run_consumer)
-    process.daemon = True
-    process.start()
+    thread = threading.Thread(target=run_consumer)
+    thread.daemon = True
+    thread.start()
