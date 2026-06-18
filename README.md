@@ -99,16 +99,8 @@ Il se déclenche automatiquement à chaque **commit** ou **merge request** sur l
 
 ---
 
-### Tester l’API :
+### API local:
 Accède à la documentation interactive : http://localhost:8000/docs
-
-#### Exemple de text positive
-![img.png](img/img.png)
-![img_1.png](img/img_1.png)
-
-#### Exemple de text negative
-![img_2.png](img/img_2.png)
-![img_3.png](img/img_3.png)
 
 
 
