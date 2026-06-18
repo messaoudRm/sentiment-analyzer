@@ -36,10 +36,10 @@ flowchart TD
 
 Assurez-vous d’avoir Docker installé, puis :
 
-### Image Docker
+### Image Docker & Déploiement Hugging Face Spaces
 
 - **Lien direct vers l’image sur Docker Hub :** [sentiment-analyzer](https://hub.docker.com/r/mess09/sentiment-analyzer)
-
+- **Lien direct vers l'application :** [sentiment-analyzer-api](https://mess22-sentiment-analyzer.hf.space/docs)
 - **Taille** : 1.55 GB
 
 
